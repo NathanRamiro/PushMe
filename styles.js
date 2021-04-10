@@ -46,7 +46,11 @@ const styles = StyleSheet.create({
       fontSize:20,
       margin:0,
       textAlign:'center'
-    }
+    }/*,
+    descricao:{
+      textAlign:'center',
+
+    }*/
   })
 
 export default styles

@@ -3,10 +3,13 @@ import { Text, View, SafeAreaView, Button, TextInput } from 'react-native';
 import * as Permissions from 'expo-permissions'
 import * as Notifications from 'expo-notifications'
 
+
+//LEMBRAR DE COLOCAR EM PORTUGUES OS NOMES DAS VARIAVEIS/FUNCOES etc...
+
 //simplesmente o cabeçalho
 import Cabecalho from './components/Cabecalho/index'
 //o arquivo que contem o style sheet
-import styles from './styles'
+import estilos from './estilos'
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -57,14 +60,15 @@ export default function App() {
   }, [])
 
   //agenda uma notifcação
-  async function gerarNotificacao(){
+  async function gerarNotificacao() {
     await Notifications.scheduleNotificationAsync({
       content: {
         title: titulo.toString(),
         body: texto.toString(),
       },
-      trigger: { seconds: 1 }, //teoricamente daria pra mudar esse valor e fazer a Notif. aparecer em um certo horario
-                               //mas eu não sei como isso iria interagir com o app sendo fechado
+      trigger: { seconds: 1 }, 
+      //teoricamente daria pra mudar esse valor e fazer a Notif. aparecer em um certo horario
+      //mas eu não sei como isso iria interagir com o app sendo fechado
     })
   }
 
@@ -74,30 +78,29 @@ export default function App() {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={estilos.container}>
 
       {/*O Cabeçalho */}
       <Cabecalho titulo='PushMe' />
 
       {/*O texto que explica o que o app faz */}
-      <View style={styles.centro}>
+      <View style={estilos.centro}>
 
-
-        <Text>Escreva uma mensagem precione o botão</Text>{/*<br/> não funciona */}
-        <Text>para salva-la na sua barra de notificações</Text>
+        <Text>Escreva uma mensagem pressione o botão</Text>{/*<br/> não funciona */}
+        <Text>e gere um lembrete em suas notificações!</Text>
 
       </View>
 
-      <View style={styles.centro}>
+      <View style={estilos.centro}>
 
         {/*O campo que segura o Titulo da notificação */}
-        <View style={styles.alto}>
+        <View style={estilos.alto}>
 
-          <Text style={styles.texto}>Titulo:</Text>
+          <Text style={estilos.texto}>Titulo:</Text>
           <TextInput
             onChangeText={texto => setTitulo(texto)}
             value={titulo}
-            style={styles.input}
+            style={estilos.input}
             placeholder='O Titulo Da Sua Notificação'
             maxLength={30}
           />
@@ -105,13 +108,13 @@ export default function App() {
         </View>
 
         {/*O campo que segura o corpo da notificação */}
-        <View style={styles.alto}>
+        <View style={estilos.alto}>
 
-          <Text style={styles.texto}>Texto:</Text>
+          <Text style={estilos.texto}>Texto:</Text>
           <TextInput
             onChangeText={texto => setTexto(texto)}
             value={texto}
-            style={styles.input}
+            style={estilos.input}
             placeholder='O Texto Da Sua Notificação'
             maxLength={100}
             multiline={true}
@@ -122,10 +125,10 @@ export default function App() {
       </View>
 
       {/*O campo que segura o botão que chama a geração da Notificação */}
-      <View style={styles.baixo}>
-        <Button title='Enviar Notificação' 
-                style={styles.botãoPush} 
-                onPress={async () => await gerarNotificacao()} />
+      <View style={estilos.baixo}>
+        <Button title='Enviar Notificação'
+          style={estilos.botãoPush}
+          onPress={async () => await gerarNotificacao()} />
       </View>
 
     </SafeAreaView>

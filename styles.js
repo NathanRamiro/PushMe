@@ -1,4 +1,3 @@
-import React from 'react'
 import {StyleSheet} from 'react-native'
 
 const styles = StyleSheet.create({
@@ -14,7 +13,8 @@ const styles = StyleSheet.create({
       backgroundColor: 'transparent',
       flexDirection: 'row',
       justifyContent: 'center',
-      alignItems: 'flex-end'
+      alignItems: 'flex-end',
+      paddingBottom:10
     },
     alto: {
       flex: 1,
@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     },
     botãoPush: {
       margin: 10,
-      backgroundColor:'#007acc'
+      color:'#007acc'
       
     },
     input:{
@@ -40,17 +40,14 @@ const styles = StyleSheet.create({
       borderColor: '#007acc', 
       borderWidth: 1 ,
       marginLeft:10  ,
-      paddingHorizontal:5         
+      paddingHorizontal:5,       
+      maxHeight:25
     },
     texto:{
       fontSize:20,
       margin:0,
       textAlign:'center'
-    }/*,
-    descricao:{
-      textAlign:'center',
-
-    }*/
+    }
   })
 
 export default styles

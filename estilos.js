@@ -14,7 +14,7 @@ const estilos = StyleSheet.create({
       flexDirection: 'row',
       justifyContent: 'center',
       alignItems: 'flex-end',
-      paddingBottom:10
+      paddingBottom: '30%'
     },
     alto: {
       flex: 1,
@@ -41,12 +41,20 @@ const estilos = StyleSheet.create({
       borderWidth: 1 ,
       marginLeft:10  ,
       paddingHorizontal:5,       
-      maxHeight:25
+      maxHeight:25,
+      borderRadius: 12.5
     },
     texto:{
       fontSize:20,
       margin:0,
       textAlign:'center'
+    },
+    alert:{
+      alignSelf: 'center',    
+    },
+    Talert:{
+      fontSize: 25,
+      color: '#a169'
     }
   })
 

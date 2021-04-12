@@ -1,10 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Text, View, SafeAreaView, Button, TextInput } from 'react-native';
+import { Text, View, SafeAreaView, Button, TextInput, Animated, TouchableOpacity } from 'react-native';
+import { AntDesign } from '@expo/vector-icons'
 import * as Permissions from 'expo-permissions'
 import * as Notifications from 'expo-notifications'
-
-
-//LEMBRAR DE COLOCAR EM PORTUGUES OS NOMES DAS VARIAVEIS/FUNCOES etc...
 
 //simplesmente o cabeçalho
 import Cabecalho from './components/Cabecalho/index'
@@ -27,6 +25,26 @@ export default function App() {
 
   const listenerDeNotificacao = useRef()
   const listenerDeResposta = useRef()
+
+
+  const mostrarAlert = useRef(new Animated.Value(0)).current;
+
+  const mostrar = () => {
+    Animated.timing(mostrarAlert, {
+      toValue: 1,
+      duration: 2000,
+      useNativeDriver: false
+    }).start()
+  };
+
+  const esconder = () => {
+    Animated.timing(mostrarAlert, {
+      toValue: 0,
+      duration: 2000,
+      useNativeDriver: false
+    }).start()
+  };
+
 
   useEffect(() => {
 
@@ -66,10 +84,12 @@ export default function App() {
         title: titulo.toString(),
         body: texto.toString(),
       },
-      trigger: { seconds: 1 }, 
+      trigger: { seconds: 1 },
       //teoricamente daria pra mudar esse valor e fazer a Notif. aparecer em um certo horario
       //mas eu não sei como isso iria interagir com o app sendo fechado
     })
+
+    mostrar(); //mostra a seta da notificação
   }
 
   //É renderizado caso não tenha obtido permição para usar notificações
@@ -83,10 +103,17 @@ export default function App() {
       {/*O Cabeçalho */}
       <Cabecalho titulo='PushMe' />
 
+      <Animated.View
+        style={[{ opacity: mostrarAlert }, estilos.alert]}>
+        <TouchableOpacity onPress={esconder}>
+          <Text style={estilos.Talert}>Veja seu lembrete 👆!</Text>
+        </TouchableOpacity>
+      </Animated.View>
+
       {/*O texto que explica o que o app faz */}
       <View style={estilos.centro}>
 
-        <Text>Escreva uma mensagem pressione o botão</Text>{/*<br/> não funciona */}
+        <Text>Dê um título e escreva uma mensagem, pressione o botão</Text>{/*<br/> não funciona */}
         <Text>e gere um lembrete em suas notificações!</Text>
 
       </View>
@@ -111,6 +138,7 @@ export default function App() {
         <View style={estilos.alto}>
 
           <Text style={estilos.texto}>Texto:</Text>
+          
           <TextInput
             onChangeText={texto => setTexto(texto)}
             value={texto}
@@ -119,18 +147,20 @@ export default function App() {
             maxLength={100}
             multiline={true}
           />
-
+        
         </View>
-
+      
       </View>
 
-      {/*O campo que segura o botão que chama a geração da Notificação */}
+      
       <View style={estilos.baixo}>
-        <Button title='Enviar Notificação'
-          style={estilos.botãoPush}
-          onPress={async () => await gerarNotificacao()} />
+        <TouchableOpacity onPress={async () => await gerarNotificacao()}>
+          <View>
+            <AntDesign name='pushpin' size={35} color={'#017e'} />
+          </View>
+        </TouchableOpacity>
       </View>
 
-    </SafeAreaView>
+    </SafeAreaView >
   );
 }

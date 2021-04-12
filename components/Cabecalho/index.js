@@ -13,7 +13,7 @@ const Cabecalho = (props)=>{
 const styles = StyleSheet.create({
     cabecalho:{
         fontSize:20,
-        paddingVertical:10,
+        paddingTop: 35,
         backgroundColor:'#007acc',
         color:'#fff',
         textAlign:'center',

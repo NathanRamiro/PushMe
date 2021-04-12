@@ -1,12 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Text, View, SafeAreaView, Button, TextInput } from 'react-native';
+import { Text, View, SafeAreaView, Button, TextInput, Animated, TouchableOpacity } from 'react-native';
+import { AntDesign } from '@expo/vector-icons'
 import * as Permissions from 'expo-permissions'
 import * as Notifications from 'expo-notifications'
 
 //simplesmente o cabeçalho
 import Cabecalho from './components/Cabecalho/index'
 //o arquivo que contem o style sheet
-import styles from './styles'
+import estilos from './estilos'
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -24,6 +25,26 @@ export default function App() {
 
   const listenerDeNotificacao = useRef()
   const listenerDeResposta = useRef()
+
+
+  const mostrarAlert = useRef(new Animated.Value(0)).current;
+
+  const mostrar = () => {
+    Animated.timing(mostrarAlert, {
+      toValue: 1,
+      duration: 2000,
+      useNativeDriver: false
+    }).start()
+  };
+
+  const esconder = () => {
+    Animated.timing(mostrarAlert, {
+      toValue: 0,
+      duration: 2000,
+      useNativeDriver: false
+    }).start()
+  };
+
 
   useEffect(() => {
 
@@ -57,15 +78,18 @@ export default function App() {
   }, [])
 
   //agenda uma notifcação
-  async function gerarNotificacao(){
+  async function gerarNotificacao() {
     await Notifications.scheduleNotificationAsync({
       content: {
         title: titulo.toString(),
         body: texto.toString(),
       },
-      trigger: { seconds: 1 }, //teoricamente daria pra mudar esse valor e fazer a Notif. aparecer em um certo horario
-                               //mas eu não sei como isso iria interagir com o app sendo fechado
+      trigger: { seconds: 1 },
+      //teoricamente daria pra mudar esse valor e fazer a Notif. aparecer em um certo horario
+      //mas eu não sei como isso iria interagir com o app sendo fechado
     })
+
+    mostrar(); //mostra a seta da notificação
   }
 
   //É renderizado caso não tenha obtido permição para usar notificações
@@ -74,30 +98,36 @@ export default function App() {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={estilos.container}>
 
       {/*O Cabeçalho */}
       <Cabecalho titulo='PushMe' />
 
+      <Animated.View
+        style={[{ opacity: mostrarAlert }, estilos.alert]}>
+        <TouchableOpacity onPress={esconder}>
+          <Text style={estilos.Talert}>Veja seu lembrete 👆!</Text>
+        </TouchableOpacity>
+      </Animated.View>
+
       {/*O texto que explica o que o app faz */}
-      <View style={styles.centro}>
+      <View style={estilos.centro}>
 
-
-        <Text>Escreva uma mensagem precione o botão</Text>{/*<br/> não funciona */}
-        <Text>para salva-la na sua barra de notificações</Text>
+        <Text>Dê um título e escreva uma mensagem, pressione o botão</Text>{/*<br/> não funciona */}
+        <Text>e gere um lembrete em suas notificações!</Text>
 
       </View>
 
-      <View style={styles.centro}>
+      <View style={estilos.centro}>
 
         {/*O campo que segura o Titulo da notificação */}
-        <View style={styles.alto}>
+        <View style={estilos.alto}>
 
-          <Text style={styles.texto}>Titulo:</Text>
+          <Text style={estilos.texto}>Titulo:</Text>
           <TextInput
             onChangeText={texto => setTitulo(texto)}
             value={titulo}
-            style={styles.input}
+            style={estilos.input}
             placeholder='O Titulo Da Sua Notificação'
             maxLength={30}
           />
@@ -105,29 +135,32 @@ export default function App() {
         </View>
 
         {/*O campo que segura o corpo da notificação */}
-        <View style={styles.alto}>
+        <View style={estilos.alto}>
 
-          <Text style={styles.texto}>Texto:</Text>
+          <Text style={estilos.texto}>Texto:</Text>
+          
           <TextInput
             onChangeText={texto => setTexto(texto)}
             value={texto}
-            style={styles.input}
+            style={estilos.input}
             placeholder='O Texto Da Sua Notificação'
             maxLength={100}
             multiline={true}
           />
-
+        
         </View>
-
+      
       </View>
 
-      {/*O campo que segura o botão que chama a geração da Notificação */}
-      <View style={styles.baixo}>
-        <Button title='Enviar Notificação' 
-                style={styles.botãoPush} 
-                onPress={async () => await gerarNotificacao()} />
+      
+      <View style={estilos.baixo}>
+        <TouchableOpacity onPress={async () => await gerarNotificacao()}>
+          <View>
+            <AntDesign name='pushpin' size={35} color={'#017e'} />
+          </View>
+        </TouchableOpacity>
       </View>
 
-    </SafeAreaView>
+    </SafeAreaView >
   );
 }

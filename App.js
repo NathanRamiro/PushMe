@@ -43,6 +43,12 @@ export default function App() {
       duration: 2000,
       useNativeDriver: false
     }).start()
+    limparInputs();
+  };
+
+  const limparInputs = () => {
+    setTitulo('');
+    setTexto('');
   };
 
 
@@ -126,7 +132,7 @@ export default function App() {
           <Text style={estilos.texto}>Titulo:</Text>
           <TextInput
             onChangeText={texto => setTitulo(texto)}
-            value={titulo}
+            defaultValue={titulo}
             style={estilos.input}
             placeholder='O Titulo Da Sua Notificação'
             maxLength={30}
@@ -141,7 +147,7 @@ export default function App() {
           
           <TextInput
             onChangeText={texto => setTexto(texto)}
-            value={texto}
+            defaultValue={texto}
             style={estilos.input}
             placeholder='O Texto Da Sua Notificação'
             maxLength={100}
@@ -152,11 +158,10 @@ export default function App() {
       
       </View>
 
-      
       <View style={estilos.baixo}>
         <TouchableOpacity onPress={async () => await gerarNotificacao()}>
           <View>
-            <AntDesign name='pushpin' size={35} color={'#017e'} />
+            <AntDesign name='pushpin' size={40} color={'#017e'} />
           </View>
         </TouchableOpacity>
       </View>

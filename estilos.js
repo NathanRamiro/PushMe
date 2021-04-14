@@ -37,12 +37,13 @@ const estilos = StyleSheet.create({
     },
     input:{
       height: 25, 
+      width: 225,
       borderColor: '#007acc', 
       borderWidth: 1 ,
       marginLeft:10  ,
       paddingHorizontal:5,       
       maxHeight:25,
-      borderRadius: 12.5
+      borderRadius: 12.5,
     },
     texto:{
       fontSize:20,
